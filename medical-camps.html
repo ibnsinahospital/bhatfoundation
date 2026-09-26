@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Medical Camps | Bhat Foundation Welfare Society</title>
+<meta name="description" content="Free medical camps organized by Bhat Foundation Welfare Society in collaboration with Ibn Sina Hospital, Ompora Budgam, Jammu & Kashmir.">
+<meta name="theme-color" content="#0F2347">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<script>document.documentElement.classList.add('js');</script>
+
+<style>
+  /* ==========================================================
+     Medical Camps page — page-specific styles
+     ========================================================== */
+
+  /* --- Camps list --- */
+  .camps-list{display:grid;gap:clamp(26px,3.5vw,40px);}
+
+  .camp-card{
+    --pad:clamp(24px,3.4vw,42px);
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--r-lg);
+    padding:var(--pad);
+    box-shadow:var(--sh-sm);
+    display:grid;gap:26px;
+    overflow:hidden;
+    transition:box-shadow .3s ease,border-color .3s ease;
+  }
+  .camp-card:hover{
+    box-shadow:var(--sh-md);
+    border-color:var(--navy-100);
+  }
+
+  /* --- Camp banner (poster inside card) --- */
+  .camp-banner{
+    margin:calc(var(--pad) * -1) calc(var(--pad) * -1) 0;
+    background:var(--navy-50);
+    overflow:hidden;
+    line-height:0;
+  }
+  .camp-banner img{
+    width:100%;height:auto;display:block;
+  }
+
+  /* --- Card head --- */
+  .camp-head{
+    display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;
+  }
+  .camp-date-badge{
+    flex-shrink:0;
+    width:96px;padding:16px 10px;
+    border-radius:var(--r);
+    background:linear-gradient(150deg,var(--navy-800),var(--navy-900));
+    color:#fff;text-align:center;
+    box-shadow:0 4px 12px rgba(8,21,43,.15),0 10px 24px -10px rgba(8,21,43,.4);
+  }
+  .camp-date-badge .day{
+    display:block;
+    font-family:var(--font-display);
+    font-size:1.5rem;font-weight:600;
+    letter-spacing:-.02em;line-height:1.05;
+  }
+  .camp-date-badge .month{
+    display:block;font-size:.68rem;font-weight:700;
+    letter-spacing:.16em;color:#B7C6DB;margin-top:6px;
+  }
+  .camp-date-badge .year{
+    display:block;font-size:.72rem;font-weight:600;
+    color:var(--clay-400);margin-top:2px;
+  }
+
+  .camp-head-info{flex:1;min-width:220px;}
+  .camp-head-info h3{
+    font-size:clamp(1.25rem,2.4vw,1.6rem);
+    margin-bottom:.5em;
+  }
+  .camp-meta{
+    display:flex;flex-wrap:wrap;gap:8px 20px;
+    font-size:.87rem;color:var(--body);
+  }
+  .camp-meta span{
+    display:inline-flex;align-items:center;gap:7px;
+    line-height:1.5;
+  }
+  .camp-meta svg{
+    width:15px;height:15px;flex-shrink:0;
+    fill:none;stroke:var(--clay-600);
+    stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+  }
+
+  /* --- Summary --- */
+  .camp-summary{
+    font-size:.95rem;color:var(--body);line-height:1.7;
+  }
+
+  /* --- Stats row --- */
+  .camp-stats{
+    display:grid;gap:16px;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    padding:24px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .camp-stat{text-align:center;padding:2px 8px;}
+  .camp-stat-value{
+    display:block;
+    font-family:var(--font-display);
+    font-weight:600;color:var(--navy-800);
+    font-size:clamp(1.5rem,3vw,2rem);
+    letter-spacing:-.02em;line-height:1;margin-bottom:8px;
+    font-variation-settings:"opsz" 48;
+  }
+  .camp-stat-label{
+    font-size:.72rem;text-transform:uppercase;
+    letter-spacing:.1em;color:var(--muted);font-weight:600;
+    line-height:1.4;display:block;
+  }
+
+  /* --- Content blocks --- */
+  .camp-block h4{
+    font-family:var(--font-body);
+    font-size:.72rem;text-transform:uppercase;
+    letter-spacing:.14em;color:var(--muted);
+    margin:0 0 14px;font-weight:700;
+  }
+
+  .camp-services{display:flex;flex-wrap:wrap;gap:8px;}
+  .camp-service{
+    background:var(--clay-50);color:var(--clay-700);
+    border:1px solid var(--clay-200);
+    border-radius:999px;padding:7px 15px;
+    font-size:.79rem;font-weight:600;letter-spacing:.003em;
+  }
+
+  .camp-outcomes{display:grid;gap:11px;}
+  .camp-outcomes li{
+    position:relative;padding-left:27px;
+    font-size:.92rem;color:var(--body);line-height:1.6;
+  }
+  .camp-outcomes li::before{
+    content:"";position:absolute;left:0;top:.36em;
+    width:17px;height:17px;border-radius:50%;
+    background:var(--clay-50);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A85742' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    background-size:9px;background-position:center;background-repeat:no-repeat;
+  }
+
+  /* --- Photo gallery --- */
+  .camp-gallery{
+    display:grid;gap:12px;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  }
+  .camp-gallery img{
+    width:100%;
+    aspect-ratio:4/3;
+    object-fit:cover;
+    border-radius:var(--r-sm);
+    border:1px solid var(--line);
+    background:var(--navy-50);
+    transition:transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s ease;
+    cursor:zoom-in;
+  }
+  .camp-gallery img:hover{
+    transform:scale(1.015);
+    box-shadow:var(--sh-md);
+  }
+  .camp-gallery--single{grid-template-columns:1fr;}
+  .camp-gallery--single img{
+    aspect-ratio:16/10;cursor:default;
+  }
+  .camp-gallery--single img:hover{
+    transform:none;box-shadow:none;
+  }
+
+  /* --- Small screens --- */
+  @media (max-width:600px){
+    .camp-head{gap:16px;}
+    .camp-date-badge{width:84px;padding:14px 8px;}
+    .camp-date-badge .day{font-size:1.3rem;}
+    .camp-stats{padding:20px 0;gap:18px;}
+  }
+  @media (max-width:480px){
+    .camp-gallery{grid-template-columns:1fr;gap:10px;}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a class="brand" href="index.html" aria-label="Bhat Foundation Welfare Society — Home">
+      <span class="brand-badge">
+        <span class="brand-mark" aria-hidden="true">BF</span>
+        <img src="images/logo.png" alt="Bhat Foundation Welfare Society logo" onerror="this.remove()">
+      </span>
+      <span class="brand-text">
+        <strong>Bhat Foundation</strong>
+        <span>Welfare Society</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Open menu">
+      <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="our-work.html">Our Work</a></li>
+        <li><a href="medical-camps.html" aria-current="page">Medical Camps</a></li>
+        <li><a href="leadership.html">Leadership</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <a class="btn btn-primary nav-cta" href="contact.html">Get Involved</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================ PAGE HERO ============================ -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Medical Camps</p>
+      <h1>Medical Camps</h1>
+      <p>
+        Through free medical camps organized in collaboration with healthcare partners, Bhat Foundation
+        Welfare Society works to make essential healthcare accessible to underserved communities
+        across Jammu &amp; Kashmir.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================ CAMPS LIST ============================ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">Featured Camps</p>
+        <h2>Our recent medical camps</h2>
+        <p class="section-sub">
+          A record of the free medical camps we have organized for the community.
+        </p>
+      </div>
+
+      <div class="camps-list" id="campsList">
+        <noscript>
+          <p>Please enable JavaScript to view the medical camps list.</p>
+        </noscript>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ CTA ============================ -->
+  <section class="section section--soft">
+    <div class="container">
+      <div class="cta-band">
+        <div class="cta-band-text">
+          <h2>Support our medical outreach.</h2>
+          <p>Help us continue organizing free medical camps for underserved communities.</p>
+        </div>
+        <div class="cta-band-actions">
+          <a class="btn btn-accent" href="contact.html">Contact Us</a>
+          <a class="btn btn-outline-light" href="our-work.html">Our Work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand brand--footer" href="index.html">
+        <span class="brand-badge">
+          <span class="brand-mark" aria-hidden="true">BF</span>
+          <img src="images/logo.png" alt="" onerror="this.remove()">
+        </span>
+        <span class="brand-text">
+          <strong>Bhat Foundation</strong>
+          <span>Welfare Society</span>
+        </span>
+      </a>
+      <p class="footer-desc">
+        A registered social welfare organization based in Ompora Budgam, Jammu &amp; Kashmir,
+        working for the upliftment and welfare of underprivileged and vulnerable communities.
+      </p>
+    </div>
+
+    <nav class="footer-col" aria-label="Quick links">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="our-work.html">Our Work</a></li>
+        <li><a href="medical-camps.html">Medical Camps</a></li>
+        <li><a href="leadership.html">Leadership</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-col">
+      <h3>Contact</h3>
+      <ul class="footer-contact">
+        <li>Ompura Budgam, Srinagar Central,<br>Srinagar, Jammu &amp; Kashmir &ndash; 191111</li>
+        <li><a href="mailto:bhatfoundationwelfare@gmail.com">bhatfoundationwelfare@gmail.com</a></li>
+        <li><a href="tel:+919622392553">+91-9622392553</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Registration</h3>
+      <ul class="footer-contact">
+        <li>Society Registration Act, 1860</li>
+        <li>Reg. No. 7460 &ndash; S of 2022</li>
+        <li>NITI Aayog: JK/2026/0981741</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>&copy; <span id="year">2026</span> Bhat Foundation Welfare Society. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<!-- ============================ SCRIPTS ============================ -->
+<script src="js/camps-data.js"></script>
+<script>
+  (function () {
+    'use strict';
+    var container = document.getElementById('campsList');
+    if (!container || typeof campsData === 'undefined') return;
+
+    var arrowIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>';
+    var calIcon   = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/></svg>';
+    var orgIcon   = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1Z"/></svg>';
+
+    container.innerHTML = campsData.map(function (camp) {
+      var bannerHTML = '';
+      if (camp.banner) {
+        bannerHTML =
+          '<div class="camp-banner">' +
+            '<img src="' + camp.banner.src + '" alt="' + camp.banner.alt + '" loading="lazy">' +
+          '</div>';
+      }
+
+      var statsHTML = camp.stats.map(function (s) {
+        return '<div class="camp-stat">' +
+                 '<span class="camp-stat-value">' + s.value + '</span>' +
+                 '<span class="camp-stat-label">' + s.label + '</span>' +
+               '</div>';
+      }).join('');
+
+      var servicesHTML = camp.services.map(function (s) {
+        return '<span class="camp-service">' + s + '</span>';
+      }).join('');
+
+      var outcomesHTML = camp.outcomes.map(function (o) {
+        return '<li>' + o + '</li>';
+      }).join('');
+
+      var galleryHTML = '';
+      if (camp.images && camp.images.length) {
+        var imgs = camp.images.map(function (img) {
+          return '<img src="' + img.src + '" alt="' + img.alt + '" loading="lazy">';
+        }).join('');
+        var cls = camp.images.length === 1 ? 'camp-gallery camp-gallery--single' : 'camp-gallery';
+        galleryHTML =
+          '<div class="camp-block">' +
+            '<h4>Photographs from the Camp</h4>' +
+            '<div class="' + cls + '">' + imgs + '</div>' +
+          '</div>';
+      }
+
+      return '' +
+      '<article class="camp-card" id="' + camp.id + '">' +
+        bannerHTML +
+        '<div class="camp-head">' +
+          '<div class="camp-date-badge" aria-hidden="true">' +
+            '<span class="day">' + camp.dateBadge.day + '</span>' +
+            '<span class="month">' + camp.dateBadge.month + '</span>' +
+            '<span class="year">' + camp.dateBadge.year + '</span>' +
+          '</div>' +
+          '<div class="camp-head-info">' +
+            '<h3>' + camp.title + '</h3>' +
+            '<div class="camp-meta">' +
+              '<span>' + calIcon + camp.date + ' &middot; ' + camp.duration + '</span>' +
+              '<span>' + arrowIcon + camp.location + '</span>' +
+              '<span>' + orgIcon + camp.organiser + '</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<p class="camp-summary">' + camp.summary + '</p>' +
+        '<div class="camp-stats">' + statsHTML + '</div>' +
+        '<div class="camp-block">' +
+          '<h4>Services Provided</h4>' +
+          '<div class="camp-services">' + servicesHTML + '</div>' +
+        '</div>' +
+        '<div class="camp-block">' +
+          '<h4>Key Outcomes &amp; Impact</h4>' +
+          '<ul class="camp-outcomes">' + outcomesHTML + '</ul>' +
+        '</div>' +
+        galleryHTML +
+      '</article>';
+    }).join('');
+  })();
+</script>
+
+<script src="js/main.js"></script>
+</body>
+</html>
